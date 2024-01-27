@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
   const canvasRef = useRef<any>(null);
@@ -83,6 +83,13 @@ export default function Home() {
     }
   }
 
+  useEffect(() => {
+    // Verifica si miRef ya no es nulo
+    if (canvasRef.current) {
+      drawConical(eccentricity); // Ejecuta la función si miRef ya no es nulo
+    }
+  }, []); // Asegúrate de incluir miRef.current en las dependencias
+
   function test() {
     console.log(eccentricity);
     const ctx: CanvasRenderingContext2D = canvasRef.current.getContext("2d");
@@ -118,6 +125,7 @@ export default function Home() {
         min={0.01}
         max={2}
         step={0.01}
+        value={eccentricity}
         className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
         onChange={(e) => drawConical(Number(e.target.value))}
       ></input>
