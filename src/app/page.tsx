@@ -72,6 +72,7 @@ export default function Home() {
 
   function drawConical(newValue: number) {
     setEccentricity(newValue);
+    console.log(newValue);
 
     const ctx: CanvasRenderingContext2D = canvasRef.current.getContext("2d");
     const canvasWidth = canvasRef.current.width;
@@ -82,9 +83,9 @@ export default function Home() {
     ctx.strokeStyle = "#0284c7";
     ctx.lineWidth = 2;
 
-    if (eccentricity < 1) {
-      const b = (canvasHeight / 6) * eccentricity; //87
-      const a = Math.sqrt(-Math.pow(b, 2) / (Math.pow(eccentricity, 2) - 1));
+    if (newValue < 1) {
+      const b = (canvasHeight / 6) * newValue; //87
+      const a = Math.sqrt(-Math.pow(b, 2) / (Math.pow(newValue, 2) - 1));
       const scale = 1000;
       const x = canvasWidth / 2; // Posición X del centro de la elipse
       const y = canvasHeight / 2; // Posición Y del centro de la elipse
@@ -104,7 +105,8 @@ export default function Home() {
       );
       ctx.stroke();
       ctx.closePath();
-    } else if (eccentricity == 1) {
+    } else if (newValue == 1) {
+      console.log("Es parabola");
       const startX = canvasWidth + securityGap; // Posición inicial X
       const startY = 0; // Posición inicial Y
       const controlX = 0 + securityGap; // Posición del punto de control X
@@ -119,7 +121,7 @@ export default function Home() {
       ctx.stroke();
       ctx.closePath();
     } else {
-      const moveFactor1 = canvasWidth * (eccentricity - 1) * 0.4;
+      const moveFactor1 = canvasWidth * (newValue - 1) * 0.4;
       const startX1 = canvasWidth - moveFactor1 + securityGap; // Posición inicial X
       const startY1 = 0; // Posición inicial Y
       const controlX1 = 0 + moveFactor1 + securityGap; // Posición del punto de control X
@@ -134,9 +136,9 @@ export default function Home() {
       ctx.stroke();
       ctx.closePath();
 
-      const moveFactor = canvasWidth * (eccentricity - 1) * 0.4;
-      const moveFactor2 = (canvasWidth / 2) * (2 - eccentricity);
-      const securityGapAdd = 7;
+      const moveFactor = canvasWidth * (newValue - 1) * 0.4;
+      const moveFactor2 = false ? (canvasWidth / 2) * (2 - newValue) : 0;
+      const securityGapAdd = canvasWidth / 5000;
       const startX =
         0 + moveFactor - securityGap + securityGapAdd - moveFactor2; // Posición inicial X
       const startY = 0; // Posición inicial Y
